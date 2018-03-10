@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<!--	<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="themes/prtheme.min.css" />
+<link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+		<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+		<link rel="stylesheet" href="http://demos.jquerymobile.com/1.4.0/theme-classic/theme-classic.css" />
+	
+	
+	</head>
+	<script>
+		
+		var db = openDatabase("AddressBook", "1.0", "Address Book", 200000);
+		// Open SQLite Database
+		db.transaction(function(tx) {
+			tx.executeSql('CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY AUTOINCREMENT, productname TEXT, price TEXT, brand TEXT)');
+		});
+		db.transaction(function(tx) {
+			tx.executeSql('CREATE TABLE IF NOT EXISTS productw (id INTEGER PRIMARY KEY AUTOINCREMENT, productname TEXT, price TEXT, brand TEXT)');
+		});
+		db.transaction(function(tx) {
+			tx.executeSql('CREATE TABLE IF NOT EXISTS addtocart(id INTEGER PRIMARY KEY AUTOINCREMENT, productname TEXT, price TEXT, brand TEXT)');
+		});
+		function insertRecord() {
+
+			var usernametemp = "iphone 7";
+			var useremailtemp = "1020";
+			var userpasstemp = "iphone";
+			db.transaction(function(tx) {
+				tx.executeSql("INSERT INTO products (productname,price,brand) VALUES (?,?,?)", [usernametemp, useremailtemp, userpasstemp]);
+			});
+		}
+
+		function insertRecord1() {
+			var usernametemp = "Squadron";
+			var useremailtemp = "120";
+			var userpasstemp = "titan";
+			db.transaction(function(tx) {
+				tx.executeSql("INSERT INTO productw (productname,price,brand) VALUES (?,?,?)", [usernametemp, useremailtemp, userpasstemp]);
+			});
+		}
+
+
+		$(document).ready(function() {
+
+			
+			console.log("i am here now");
+			if ( typeof (Storage) !== "undefined") {
+				console.log("localStorage.username " + localStorage.username);
+				$("#printname").text(localStorage.username);
+			}
+
+			$("#cart1").click(function() {
+				
+				var usernametemp = "Galaxy S7";
+				var userpricetemp = "600";
+				var userbandtemp = "Samsung";
+				db.transaction(function(tx) {
+					tx.executeSql("INSERT INTO addtocart (productname,price,brand) VALUES (?,?,?)", [usernametemp, userpricetemp, userbandtemp]);
+				});
+				
+			});
+			$("#cart2").click(function() {
+
+				var usernametemp = "Iphone 7";
+				var userpricetemp = "1020";
+				var userbandtemp = "Iphone";
+				db.transaction(function(tx) {
+					tx.executeSql("INSERT INTO addtocart (productname,price,brand) VALUES (?,?,?)", [usernametemp, userpricetemp, userbandtemp]);
+				});
+				
+			});
+			$("#cart3").click(function() {
+
+				var usernametemp = "Moto G";
+				var userpricetemp = "300";
+				var userbandtemp = "Moto";
+				db.transaction(function(tx) {
+					tx.executeSql("INSERT INTO addtocart (productname,price,brand) VALUES (?,?,?)", [usernametemp, userpricetemp, userbandtemp]);
+				});
+				$("#popupBasic").popup("open");
+				
+			});
+			//watch
+			$("#cart4").click(function() {
+
+				var usernametemp = "Squadron";
+				var userpricetemp = "150";
+				var userbandtemp = "Casio";
+				db.transaction(function(tx) {
+					tx.executeSql("INSERT INTO addtocart (productname,price,brand) VALUES (?,?,?)", [usernametemp, userpricetemp, userbandtemp]);
+				});
+				$("#popupBasic").popup("open");
+			});
+			
+			$("#cart5").click(function() {
+
+				var usernametemp = "Iron Man";
+				var userpricetemp = "200";
+				var userbandtemp = "Timex";
+				db.transaction(function(tx) {
+					tx.executeSql("INSERT INTO addtocart (productname,price,brand) VALUES (?,?,?)", [usernametemp, userpricetemp, userbandtemp]);
+				});
+				$("#popupBasic").popup("open");
+				
+			});
+			$("#cart6").click(function() {
+
+				var usernametemp = "Titanium";
+				var userpricetemp = "120";
+				var userbandtemp = "Titan";
+				db.transaction(function(tx) {
+					tx.executeSql("INSERT INTO addtocart (productname,price,brand) VALUES (?,?,?)", [usernametemp, userpricetemp, userbandtemp]);
+				});
+				$("#popupBasic").popup("open");
+			});
+			
+			
+			$("#idMyProfile").click(function(){
+				window.location = "myprofile.html";
+			});
+			$("#idmycart").click(function(){
+				window.location = "mycart.html";
+			});
+			$("#lmobile").click(function(){
+				$("#watch").hide();
+					$("#mobile").show();
+				
+				
+			});
+			$("#lwatch").click(function(){
+				$("#mobile").hide();
+				$("#watch").show();
+			});
+            $("#watch").hide();
+            $("#mobile").hide();
+		});
+
+	</script>
+	<body>
+
+		<div data-theme="e" data-role="page" id="page1" data-theme="a">
+			<div data-role="main" class="ui-content">
+				<h2>Welcome</h2>
+				<div id="printname"></div>
+				<div data-role="collapsible" data-collapsed="false">
+					<h4>Heading</h4>
+					<ul data-role="listview">
+						<li id="lmobile">
+							<a href="#mobile">Mobile</a>
+						</li>
+						<li id="lwatch">
+							<a href="#watch">Watch</a>
+						</li>
+					</ul>
+				</div>
+				<div id="mobile">
+				<ul data-role="listview" data-filter="true" data-filter-placeholder="Search item..." data-inset="true"data-inset="true">
+					<li>
+						<a href="#"><img src="s6.jpg" alt="img1" height="90" width="90" class="ui-li-icon">Samsung S7</a>
+						<a href="#page4" data-icon="gear">click here</a>
+					</li>
+					<li>
+						<a href="#"><img src="s7.jpg" alt="img2" height="90" width="90" class="ui-li-icon">Iphone 7</a>
+						<a href="#page2" data-icon="gear">click here</a>
+					</li>
+					<li>
+						<a href="#"><img src="s8.jpg" alt="img3" height="90" width="90" class="ui-li-icon">Moto G</a>
+						<a href="#page3" data-icon="gear">click here</a>
+					</li>
+
+				</ul>
+			</div>
+			<div id="watch">
+				<ul data-role="listview" data-filter="true" data-filter-placeholder="Search item..." data-inset="true"data-inset="true">
+					<li>
+						<a href="#"><img src="casio.jpg" alt="img1" height="90" width="90" class="ui-li-icon">Squadron</a>
+						<a href="#watch4" data-icon="gear">click here</a>
+					</li>
+					<li>
+						<a href="#"><img src="timex.jpg" alt="img2" height="90" width="90" class="ui-li-icon">Iron Man</a>
+						<a href="#watch5" data-icon="gear">click here</a>
+					</li>
+					<li>
+						<a href="#"><img src="titan.jpg" alt="img3" height="90" width="90" class="ui-li-icon">Titanium</a>
+						<a href="#watch6" data-icon="gear">click here</a>
+					</li>
+
+				</ul>
+			</div>
+			
+			
+				
+			</div>
+			<!-- <button id="submitbutton"> submit</button> -->
+			<div data-role="navbar">
+				<ul>
+					<li>
+						<a href="#page1" class="ui-btn-active" id="pageone">Welcome Screen</a>
+					</li>
+					<li>
+						<a id="idmycart" class="ui-btn-active">My Cart</a>
+					</li>
+					<li>
+						<a id="idMyProfile" class="ui-btn-active">My Profile</a>
+					</li>
+
+				</ul>
+			</div>
+		</div>
+		
+		
+		
+		
+		
+		<div data-theme="e" data-role="page" id="page4">
+			<div data-role="main" class="ui-content">
+				<h3>Samsung</h3>
+				<img src="s6.jpg" alt="img1" height="200" width="200">
+				<p id="col1">
+					Galaxy S7
+				</p>
+				<p id="col2">
+					$600
+				</p>
+				<p id="col3">
+					Samsung
+				</p>
+				
+			<a id="cart1" href="#popupBasic1" data-rel="popup" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" data-transition="pop">
+					Add to Cart
+			</a>
+				<div data-role="popup" id="popupBasic1">
+				<p>Item is added</p>
+			</div>
+			</div>
+			<div data-role="footer">
+				<div data-role="navbar" data-iconpos="bottom">
+					<ul>
+						<li>
+							<a href="welcome.html" data-icon="grid">Main page</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div data-theme="e" data-role="page" id="page2">
+			<div data-role="main" class="ui-content">
+				<h3>Iphone</h3>
+
+				<img src="s7.jpg" alt="img1" height="200" width="200">
+				
+				<p id="col4">
+					Iphone 7
+				</p>
+				<p id="col5">
+					$1020
+				</p>
+				<p id="col6">
+					Iphone
+				</p>
+				<a id="cart2" href="#popupBasic2" data-rel="popup" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" data-transition="pop">
+					Add to Cart
+			</a>
+				<div data-role="popup" id="popupBasic2">
+				<p>Item is added</p>
+			</div>
+
+			</div>
+			<div data-role="footer">
+				<div data-role="navbar" data-iconpos="bottom">
+					<ul>
+						<li>
+							<a href="welcome.html" data-icon="grid">Main page</a>
+	-					</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div data-theme="e" data-role="page" id="page3">
+			<div data-role="main" class="ui-content">
+				<h3>Moto</h3>
+				<img src="s8.jpg" alt="img1" height="200" width="200">
+				<p id="col1">
+					Moto G
+				</p>
+				<p id="col2">
+					$300
+				</p>
+				<p id="col3">
+					Moto
+				</p>
+				<a id="cart3" href="#popupBasic3" data-rel="popup" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" data-transition="pop">
+					Add to Cart
+			</a>
+				<div data-role="popup" id="popupBasic3">
+				<p>Item is added</p>
+			</div>
+				
+
+			</div>
+			<div data-role="footer">
+				<div data-role="navbar" data-iconpos="bottom">
+					<ul>
+						<li>
+							<a href="welcome.html" data-icon="grid">Main page</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+		//watches
+		
+        <div data-theme="e" data-role="page" id="watch4">
+			<div data-role="main" class="ui-content">
+				<h3>Casio</h3>
+				<img src="casio.jpg" alt="img1" height="200" width="200">
+				<p id="col1">
+					Squadron
+				</p>
+				<p id="col2">
+					$150
+				</p>
+				<p id="col3">
+					Casio
+				</p>
+				<a id="cart4" href="#popupBasic4" data-rel="popup" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" data-transition="pop">
+					Add to Cart
+			</a>
+				<div data-role="popup" id="popupBasic4">
+				<p>Item is added</p>
+			</div>
+			</div>
+			<div data-role="footer">
+				<div data-role="navbar" data-iconpos="bottom">
+					<ul>
+						<li>
+							<a href="welcome.html" data-icon="grid">Main page</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		<div data-theme="e" data-role="page" id="watch5">
+			<div data-role="main" class="ui-content">
+				<h3>Timex</h3>
+				<img src="timex.jpg" alt="img1" height="200" width="200">
+				<p id="col1">
+					Iron Man
+				</p>
+				<p id="col2">
+					$200
+				</p>
+				<p id="col3">
+					Timex
+				</p>
+				<a id="cart5" href="#popupBasic5" data-rel="popup" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" data-transition="pop">
+					Add to Cart
+			</a>
+				<div data-role="popup" id="popupBasic5">
+				<p>Item is added</p>
+			</div>
+			</div>
+			<div data-role="footer">
+				<div data-role="navbar" data-iconpos="bottom">
+					<ul>
+						<li>
+							<a href="welcome.html" data-icon="grid">Main page</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div data-theme="e" data-role="page" id="watch6">
+			<div data-role="main" class="ui-content">
+				<h3>Titan</h3>
+				<img src="titan.jpg" alt="img1" height="200" width="200">
+				<p id="col1">
+					Titanium
+				</p>
+				<p id="col2">
+					$120
+				</p>
+				<p id="col3">
+					Titan
+				</p>
+				<a id="cart6" href="#popupBasic6" data-rel="popup" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" data-transition="pop">
+					Add to Cart
+			</a>
+				<div data-role="popup" id="popupBasic6">
+				<p>Item is added</p>
+			</div>
+			</div>
+			<div data-role="footer">
+				<div data-role="navbar" data-iconpos="bottom">
+					<ul>
+						<li>
+							<a href="welcome.html" data-icon="grid">Main page</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		
+		
+		
+		
+		
+	</body>
+</html>

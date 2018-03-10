@@ -1,0 +1,115 @@
+<html>
+	<head>
+		<title>jQuery Mobile page</title>
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+		<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+		<link rel="stylesheet" href="http://demos.jquerymobile.com/1.4.0/theme-classic/theme-classic.css" />
+	</head>
+	<script>
+		var db = openDatabase("AddressBook", "1.0", "Address Book", 200000);
+		var selectAllStatement = "SELECT * FROM addtocart";
+		var deleteStatement = "DELETE FROM addtocart WHERE id=?";
+		$(document).ready(function()// Call function when page is ready for load..
+
+		{
+			$("#results").html('');
+
+			db.transaction(function(tx) {
+
+				tx.executeSql(selectAllStatement, [], function(tx, result) {
+
+					dataset = result.rows;
+
+					for (var i = 0,
+					    item = null; i < dataset.length; i++) {
+
+						item = dataset.item(i);
+
+						var linkeditdelete = '<li>' + item['productname'] + ' , ' + item['price'] + ',' + item['brand'] + '    ' + '<a href="#" onclick="deleteRecord(' + item['id'] + ');">delete</a></li>';
+
+						$("#results").append(linkeditdelete);
+
+					}
+
+				});
+
+			});
+			$("#idwelcome").click(function(){
+				window.location = "welcome.html";
+			});	
+
+			
+		});
+		function deleteRecord(id)// Get id of record . Function Call when Delete Button Click..
+
+		{
+
+			var iddelete = id.toString();
+
+			db.transaction(function(tx) {
+				tx.executeSql("DELETE FROM addtocart WHERE id=?", [id],showRecords);
+				alert("Delete Sucessfully");
+			});
+
+		
+
+		}
+		function showRecords() // Function For Retrive data from Database Display records as list
+ 
+{
+ 
+    $("#results").html('');
+ 
+    db.transaction(function (tx) {
+ 
+        tx.executeSql(selectAllStatement, [], function (tx, result) {
+ 
+            dataset = result.rows;
+ 
+            for (var i = 0, item = null; i < dataset.length; i++) {
+ 
+                item = dataset.item(i);
+                var linkeditdelete = '<li>' + item['productname'] + ' , ' + item['price'] + ',' + item['brand'] + '    ' + '<a href="#"  onclick="deleteRecord(' + item['id'] + ');">delete</a></li>';
+               
+                $("#results").append(linkeditdelete);
+ 
+            }
+ 
+        });
+ 
+    });
+ 
+}
+
+	
+	</script>
+	<body>
+		<div data-theme="e" id="page1" data-role="page">
+			<div data-role="header">
+				<h4>My cart</h4>
+			</div>
+			<div data-role="main" class="ui-contents">
+				<div id="resultsss">
+					<ul data-role="listview" id="results">
+
+					</ul>
+				</div>
+
+			</div>
+
+			<div data-role="navbar">
+				<ul>
+<li><a id="idwelcome" class="ui-btn-active">Welcome Screen</a></li>
+<li><a href="mycart.html" class="ui-btn-active" id="cartinte link kodukunam">My Cart</a></li>
+
+ </ul>
+			</div>
+		</div>
+<div data-role="navbar">
+
+</div>
+
+	</body>
+
+</html>

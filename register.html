@@ -1,0 +1,76 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+		<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+		<link rel="stylesheet" href="http://demos.jquerymobile.com/1.4.0/theme-classic/theme-classic.css" />
+	</head>
+	<script>
+	var db = openDatabase("AddressBook", "1.0", "Address Book", 200000);  // Open SQLite Database
+		db.transaction(function (tx) { tx.executeSql('CREATE TABLE IF NOT EXISTS register (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, useremail TEXT, userpassword TEXT)');});
+    
+      
+        function insertRecord() // Get value from Input and insert record . Function Call when Save/Submit Button Click..
+ 
+        {
+ 
+        var usernametemp = $('input:text[id=name]').val();
+        var useremailtemp = $('input:text[id=email]').val();
+        var userpasstemp = $('input:text[id=password]').val();
+         db.transaction(function (tx) { tx.executeSql("INSERT INTO register (username,useremail,userpassword) VALUES (?,?,?)", [usernametemp, useremailtemp,userpasstemp]); });
+ 
+        //tx.executeSql(SQL Query Statement,[ Parameters ] , Sucess Result Handler Function, Error Result Handler Function );
+ 
+         }
+        $(document).ready(function () // Call function when page is ready for load..
+ 
+        {
+             ;
+  
+    $("body").fadeIn(2000); // Fede In Effect when Page Load..
+ 
+   // initDatabase();
+ 
+    $("#regbutton").click(insertRecord);  // Register Event Listener when button click.
+ 
+   // $("#btnUpdate").click(updateRecord);
+ 
+   // $("#btnReset").click(resetForm);
+ 
+    //$("#btnDrop").click(dropTable);
+ 
+});
+    	
+	</script>
+	
+	
+	
+	<body>
+		<div data-theme="e" data-role="page" id="pageone">
+		<div data-role="main" class="ui-content">
+		<br/>
+		<h2>Register Now</h2>
+		<br/><br/>
+		<label>Full Name :<input id="name" type="text" placeholder="Enter full name"/></label>
+		<br/><br/>
+		<label>Email Id<input id="email" type="text" placeholder="Enter the email Id"/></label>
+		<br/><br/>
+		<label>Password<input id="password" type="text" placeholder="Enter the password"/></label>
+		<br/><br/>
+		<label>Confirm Password<input id="confirm" type="text" placeholder="Enter the Password"/></label>
+		<br/><br/>
+		</div>
+		<button id="regbutton">Register</button>
+		 <div data-role="navbar">
+<ul>
+
+<li><a href="index.html" >Login Screen</a></li>
+
+
+
+ </ul>
+</div>
+</div>
+	</body>
+
+</html>

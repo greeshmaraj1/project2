@@ -1,0 +1,129 @@
+<html>
+	<head>
+		<title>jQuery Mobile page</title>
+		
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+		<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+		<link rel="stylesheet" href="http://demos.jquerymobile.com/1.4.0/theme-classic/theme-classic.css" />
+
+		<!--<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+		<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+		<link rel="stylesheet" href="http://demos.jquerymobile.com/1.4.0/theme-classic/theme-classic.css" />
+		<link rel="stylesheet" href="css/themes/my-custom-theme.css" />
+  <link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />-->
+	</head>
+	
+		<script>
+			var db = openDatabase("AddressBook", "1.0", "Address Book", 200000);
+			//var selectAllStatement = "SELECT * FROM register";
+			//var user1 = sessionStorage.user;
+            //console.log(user1);
+            var user1= "";
+            if ( typeof (Storage) !== "undefined") {
+				console.log("localStorage.username " + localStorage.username);
+				
+			 	user1=localStorage.username;
+			}
+			console.log("user1 " + user1);
+
+			var selectAllStatement = "SELECT * FROM register where username='"+user1+"' ";
+			var updateStatement = "UPDATE Contacts SET username = ?, useremail = ? WHERE username ='"+user1+"' ";
+			$(document).ready(function()// Call function when page is ready for load..
+
+		{
+			
+            $("#printname").text(user1);
+			$("#results").html('');
+
+			db.transaction(function(tx) {
+
+				tx.executeSql(selectAllStatement, [], function(tx, result) {
+
+					dataset = result.rows;
+
+					for (var i = 0,
+					    item = null; i < dataset.length; i++) {
+
+						item = dataset.item(i);
+						var name=item['username'];
+						$("#idUsername").val(name);
+						var email =item['useremail'];
+                        $("#idEmail").val(email);
+						//var linkeditdelete = '<li>' + item['username'] + ' , ' + item['useremail'] + ',' + '    ' + '<a href="#" onclick="loadRecord(' + item['id'] + ');">edit</a></li>';
+                         //var news="<a href=\"#\" onClick=\"updateRecord()\">";
+						//$("#results").append(linkeditdelete);
+						
+
+					}
+
+				});
+
+			});
+			$("#idlogout").click(function(){
+				window.location = "index.html";
+			});
+			
+		});
+		function loadRecord(i) // Function for display records which are retrived from database.
+ 
+{
+ 
+    var item = dataset.item(i);
+ 
+    $("#username").val((item['username']).toString());
+ 
+    $("#useremail").val((item['useremail']).toString());
+ 
+    $("#id").val((item['id']).toString());
+ 
+}
+function updateRecord() // Get id of record . Function Call when Delete Button Click..
+ 
+{
+ 
+    var usernameupdate = $('input:text[id=idUsername]').val().toString();
+ 
+    var useremailupdate = $('input:text[id=idEmail]').val().toString();
+ 
+ 
+    db.transaction(function (tx) { tx.executeSql(updateStatement, [usernameupdate, useremailupdate]); });
+    alert("update done");
+ 
+};
+
+</script>
+<body>
+		<div data-role="page" data-theme="e">
+		<div data-role="main" class="ui-content">
+	    <div data-role="header">
+				<h4>My Profile</h4>
+				 <div id="printname"> </div>
+			</div></br>
+			<div data-role="main" class="ui-contents">
+				<p></p>
+				<label>Username :<input type="text" id="idUsername" /></label>
+				<label>Email Id :<input type="text" id="idEmail" /></label>
+
+			</div>
+		<div id="resultsss">
+					<ul data-role="listview" id="results">
+
+					</ul>
+		</div><br/>
+		 <div data-role="navbar">
+<ul>
+	<!--
+<li><a href="#page1" class="ui-btn-active" id="pageone">Edit</a></li>
+<li><a href="#page2" id="cartinte link kodukunam">Exit</a></li>
+-->
+<button onclick="upadateRecord()">EDIT</button>
+<button id="idlogout">LOG OUT</button>
+
+ </ul>
+</div>
+</div>
+</div>
+	</body>
+</html>

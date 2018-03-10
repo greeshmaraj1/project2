@@ -1,0 +1,123 @@
+<html>
+	<head>
+		<title>Login</title>
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+		<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+		<link rel="stylesheet" href="http://demos.jquerymobile.com/1.4.0/theme-classic/theme-classic.css" />
+	</head>
+	<script>
+		$(document).ready(function() {
+
+			if ( typeof (Storage) !== "undefined") {
+				localStorage.firstname = null;
+				localStorage.username = null;
+			};
+			$("#idBtnLogin").click(function() {
+				var user = $("#idUsername").val();
+				//alert(user);
+				var listvalues = user;
+				console.log(listvalues);
+				localStorage.setItem('lists', JSON.stringify(listvalues));
+
+				doLogin();
+			});
+			$("#reg").click(function(){
+				window.location = "register.html";
+			});
+		});
+		//var selectAllStatement = "SELECT * FROM register";
+		var db = openDatabase("AddressBook", "1.0", "Address Book", 200000);
+		function doLogin()// Function For Retrive data from Database Display records as list
+		{
+
+			//$("#results").html('')
+
+			db.transaction(function(tx) {
+				var userName = $("#idUsername").val();
+				var password = $("#idPassword").val();
+				console.log("userName - " + userName);
+				console.log("password - " + password);
+				if (userName == "") {
+					alert("Please enter a valid username");
+					return;
+				}
+				if (password == "") {
+					alert("Please enter a valid password");
+					return;
+				}
+
+				//var selectAllStatement = "SELECT * FROM register where username='greeshma' and useremail='marygreeshma@gmail.com'";
+
+				var selectAllStatement = "SELECT * FROM register where username='" + userName + "' and userpassword='" + password + "'";
+
+				tx.executeSql(selectAllStatement, [], function(tx, result) {
+
+					dataset = result.rows;
+
+					console.log("dataset.lnggggg " + dataset.length);
+					if (dataset.length == 0) {
+						alert("Invalid username/password");
+						return;
+					} else {
+						//$.mobile.changePage('welcome.html', { dataUrl : "welcome.html?parameter=123", data : { 'parameter' : '123' }, reloadPage : true, changeHash : true });
+
+						// $.mobile.changePage("welcome.html", {
+						// transition : "slideup",
+						// changeHash : true,
+						// reloadPage : true,
+						// });
+						console.log("happened");
+						window.location = "welcome.html";
+
+						if ( typeof (Storage) !== "undefined") {
+							console.log("in here "+userName);
+							localStorage.username = userName;
+						}
+						console.log("finished adding to storage");
+					}
+				});
+
+			});
+
+		}
+
+		function registerp() {
+			location.replace("register.html");
+		}
+
+	</script>
+	<body>
+		<div data-theme="e" id="page1" data-role="page">
+			<div data-role="header">
+				<h4>Login</h4>
+			</div>
+			<div data-role="main" class="ui-contents">
+				<p></p>
+				<input type="text" id="idUsername" placeholder="enter username">
+				<input type="password" id="idPassword" placeholder="enter password">
+				<button id="idBtnLogin">
+					Login
+				</button>
+				
+				<button id="reg">
+					Register
+				</button></a>
+
+			</div>
+			<div data-role="popup" id="popupBasic">
+				<p>
+					Please enter a valid username & password
+				</p>
+			</div>
+			<div data-role="popup" id="popupBasic1">
+				<p>
+					Login sucess
+				</p>
+			</div>
+
+		</div>
+
+	</body>
+
+</html>
